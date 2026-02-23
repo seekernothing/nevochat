@@ -134,7 +134,7 @@ export function Navbar() {
             variant="default"
             className="hidden sm:inline-flex shadow-[4px_4px_0px_0px_var(--border)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_var(--border)] transition-all font-black text-main-foreground bg-main border-2 border-border uppercase tracking-widest"
           >
-            <Link href="/signin">Sign In</Link>
+            <Link href="/sign-in">Sign In</Link>
           </Button>
 
           {/* Mobile Hamburger */}
@@ -185,7 +185,7 @@ export function Navbar() {
                     variant="default"
                     className="mt-8 h-12 shadow-[4px_4px_0px_0px_var(--border)] font-black text-main-foreground bg-main border-2 border-border uppercase tracking-widest text-lg"
                   >
-                    <Link href="/signin">Sign In</Link>
+                    <Link href="/sign-in">Sign In</Link>
                   </Button>
                 </nav>
               </SheetContent>

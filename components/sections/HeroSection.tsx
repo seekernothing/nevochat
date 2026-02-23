@@ -54,10 +54,11 @@ export function HeroSection() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button
+                  asChild
                   size="lg"
                   className="h-12 px-8 text-base shadow-shadow font-bold bg-main text-main-foreground hover:bg-main/90 border-2 border-border"
                 >
-                  Get Started for Free
+                  <Link href="/sign-in">Get Started for Free</Link>
                 </Button>
               </motion.div>
               <motion.div
@@ -65,11 +66,12 @@ export function HeroSection() {
                 whileTap={{ scale: 0.95 }}
               >
                 <Button
+                  asChild
                   size="lg"
                   variant="neutral"
                   className="h-12 px-8 text-base shadow-shadow font-bold border-2 border-border text-foreground hover:bg-secondary-background"
                 >
-                  <Link href="/signin">Sign In</Link>
+                  <Link href="/sign-in">Sign In</Link>
                 </Button>
               </motion.div>
             </div>
