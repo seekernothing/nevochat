@@ -30,6 +30,9 @@ const ChatMessageForm = ({
     // Placeholder: send message logic will go here
     console.log("Sending message:", message);
     setMessage("");
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
     onMessageChange();
   };
 
@@ -41,15 +44,23 @@ const ChatMessageForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl px-4">
+    <form onSubmit={handleSubmit} className="w-full max-w-3xl px-4 mb-6">
       <div className="relative flex items-end border-4 border-border rounded-base bg-secondary-background shadow-shadow overflow-hidden">
         <Textarea
           ref={textareaRef}
           placeholder="Message NevoChat..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            setMessage(e.target.value);
+            // Auto-resize: reset height then expand to scrollHeight
+            const ta = textareaRef.current;
+            if (ta) {
+              ta.style.height = "auto";
+              ta.style.height = `${ta.scrollHeight}px`;
+            }
+          }}
           onKeyDown={handleKeyDown}
-          className="flex-1 min-h-[52px] max-h-[200px] resize-none border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 pr-14 text-base font-base"
+          className="flex-1 min-h-[52px] max-h-[200px] resize-none border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 pr-14 text-base font-base overflow-y-auto"
           rows={1}
         />
         <Button
