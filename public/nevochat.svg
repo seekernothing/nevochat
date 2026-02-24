@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <path
+    d="M 80 22 H 160 A 40 40 0 0 1 200 62 V 142 A 40 40 0 0 1 160 182 H 90 L 40 218 L 60 176.6 A 40 40 0 0 1 40 142 V 62 A 40 40 0 0 1 80 22 Z"
+    fill="none"
+    stroke="#111"
+    stroke-width="16"
+    stroke-linejoin="round"
+  />
+  <circle cx="80" cy="142" r="8" fill="#4ade80" />
+  <circle cx="160" cy="62" r="8" fill="#4ade80" />
+  <path
+    d="M 80 122 V 62 L 160 142 V 82"
+    fill="none"
+    stroke="#4ade80"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
