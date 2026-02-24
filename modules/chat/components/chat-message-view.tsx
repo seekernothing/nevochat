@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import ChatWelcomeTabs from "./chat-welcome-tabs";
 import ChatMessageForm from "./chat-message-form";
+import { useAIModels } from "@/modules/ai-agent/hook/ai-agent";
 
 interface ChatMessageViewProps {
   user: { name?: string } | null;
@@ -10,6 +11,10 @@ interface ChatMessageViewProps {
 
 const ChatMessageView = ({ user }: ChatMessageViewProps) => {
   const [selectedMessage, setSelectedMessage] = useState("");
+  const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
+  const { data, isLoading, isError } = useAIModels();
+
+  const models = data?.models || [];
 
   const handleMessageSelect = (message: string) => {
     setSelectedMessage(message);
@@ -25,10 +30,17 @@ const ChatMessageView = ({ user }: ChatMessageViewProps) => {
         userName={user?.name || "User"}
         onMessageSelect={handleMessageSelect}
       />
-      <ChatMessageForm
-        initialMessage={selectedMessage}
-        onMessageChange={handleMessageChange}
-      />
+      <div className="w-full max-w-3xl px-4 flex flex-col gap-3">
+        <ChatMessageForm
+          initialMessage={selectedMessage}
+          onMessageChange={handleMessageChange}
+          models={models}
+          isLoading={isLoading}
+          isError={isError}
+          selectedModelId={selectedModelId}
+          onModelSelect={setSelectedModelId}
+        />
+      </div>
     </div>
   );
 };
