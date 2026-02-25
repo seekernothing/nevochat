@@ -1,5 +1,7 @@
 "use client";
-
+import React from "react";
+import { toast } from "sonner";
+import { useDeleteChat } from "../../hooks/chat";
 import {
   Dialog,
   DialogContent,
@@ -10,53 +12,51 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-interface DeleteChatModalProps {
-  chatId: string;
-  isModalOpen: boolean;
-  setIsModalOpen: (open: boolean) => void;
-}
+const DeleteChatModal = ({ isModalOpen, setIsModalOpen, chatId }: any) => {
+  const { mutateAsync, isPending } = useDeleteChat(chatId);
 
-export default function DeleteChatModal({
-  chatId,
-  isModalOpen,
-  setIsModalOpen,
-}: DeleteChatModalProps) {
-  const handleDelete = () => {
-    // Placeholder deletion logic
-    console.log("Deleting chat:", chatId);
-    setIsModalOpen(false);
+  const handleDelete = async () => {
+    try {
+      await mutateAsync();
+      toast.success("Chat Deleted Successfully");
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Failed to delete chat");
+      console.error("Failed to delete chat:", error);
+    }
   };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-      <DialogContent className="sm:max-w-md border-4 border-border shadow-shadow bg-secondary-background">
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle className="font-heading uppercase tracking-widest pl-2">
-            Delete Chat?
-          </DialogTitle>
-          <DialogDescription className="font-base text-foreground/80 pl-2">
-            Are you sure you want to delete this chat forever?
+          <DialogTitle>Delete Chat</DialogTitle>
+          <DialogDescription>
+            Are you sure you want to delete this Chat? This action cannot be
+            undone.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="sm:justify-end gap-2 mt-4 px-2">
+        <div className="py-2">
+          <p className="text-sm text-foreground/70">
+            Once deleted, all requests and data in this Chat will be permanently
+            removed.
+          </p>
+        </div>
+        <DialogFooter>
           <Button
-            type="button"
-            variant="noShadow"
-            className="bg-secondary-background hover:bg-main hover:text-main-foreground font-bold"
+            variant="neutral"
             onClick={() => setIsModalOpen(false)}
+            disabled={isPending}
           >
             Cancel
           </Button>
-          <Button
-            type="button"
-            variant="noShadow"
-            className="bg-red-500 hover:bg-red-600 text-white font-bold"
-            onClick={handleDelete}
-          >
-            Delete
+          <Button variant="default" onClick={handleDelete} disabled={isPending}>
+            {isPending ? "Deleting..." : "Delete"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default DeleteChatModal;

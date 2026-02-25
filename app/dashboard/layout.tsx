@@ -5,6 +5,7 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAllChats } from "@/modules/chat/actions";
 
 export default async function DashboardLayout({
   children,
@@ -19,8 +20,9 @@ export default async function DashboardLayout({
     redirect("/sign-in");
   }
 
-  // Placeholder for chats fetching logic, replacing with empty for now.
-  const chats: any[] = [];
+  const response = await getAllChats();
+  const chats =
+    response.success && response.data ? (response.data as any[]) : [];
 
   return (
     <QueryProvider>

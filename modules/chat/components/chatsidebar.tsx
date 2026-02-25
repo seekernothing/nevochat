@@ -21,6 +21,7 @@ import {
   SidebarGroup,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
@@ -33,13 +34,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { PlusIcon, SearchIcon, EllipsisIcon, Trash } from "lucide-react";
+import { PlusIcon, SearchIcon, Trash, MessageSquare } from "lucide-react";
+import DeleteChatModal from "./modal/chat-delete-modal";
+import { useChatStore } from "../store/chat-store";
 
 const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
 
-  const [activeChatId] = useState<string | null>(null);
+  const { activeChatId } = useChatStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredChats = useMemo(() => {
@@ -87,7 +92,8 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
   const onDelete = (e: React.MouseEvent, chatId: string) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log("Delete clicked for", chatId);
+    setSelectedChatId(chatId);
+    setIsModalOpen(true);
   };
 
   const renderChatList = (chatList: unknown[]) => {
@@ -95,46 +101,51 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
     return chatList.map((chatObj) => {
       const chat = chatObj as { id: string; title?: string };
       const isSelected = chat.id === activeChatId;
+
       return (
-        <SidebarMenuItem key={chat.id}>
-          <SidebarMenuButton
-            asChild
-            isActive={isSelected}
-            className="group flex justify-between w-full pr-1 font-semibold"
+        <DropdownMenu key={chat.id}>
+          <DropdownMenuTrigger asChild>
+            <button
+              title={chat.title || "New Chat"}
+              className={`block w-full text-left rounded-base p-2 text-sm font-semibold transition-colors hover:bg-main hover:text-main-foreground cursor-pointer border-0 bg-transparent ${
+                isSelected
+                  ? "bg-main text-main-foreground outline-2 outline-border"
+                  : ""
+              }`}
+            >
+              <span className="block truncate">{chat.title || "New Chat"}</span>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="start"
+            side="right"
+            className="w-48 bg-secondary-background border-2 border-border"
           >
-            <Link href={`/chat/${chat.id}`}>
-              <span className="truncate flex-1">
-                {chat.title || "New Chat"}
-              </span>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="noShadow"
-                    size="icon"
-                    className="h-6 w-6 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity bg-transparent hover:bg-main hover:text-main-foreground"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <EllipsisIcon className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-48 bg-secondary-background border-border"
-                >
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-border" />
-                  <DropdownMenuItem
-                    className="flex flex-row gap-2 cursor-pointer focus:bg-red-100 focus:text-red-900 dark:focus:bg-red-900 dark:focus:text-red-100"
-                    onClick={(e) => onDelete(e, chat.id)}
-                  >
-                    <Trash className="h-4 w-4 text-red-500" />
-                    <span className="text-red-500 font-bold">Delete</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+            <DropdownMenuLabel className="truncate">
+              {chat.title || "New Chat"}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-border" />
+            <DropdownMenuItem
+              asChild
+              className="flex gap-2 cursor-pointer focus:bg-main focus:text-main-foreground"
+            >
+              <Link href={`/chat/${chat.id}`}>
+                <MessageSquare className="h-4 w-4" />
+                <span className="font-bold">Go to Chat</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(e, chat.id);
+              }}
+              className="flex gap-2 cursor-pointer focus:bg-red-100 focus:text-red-900"
+            >
+              <Trash className="h-4 w-4 text-red-500" />
+              <span className="font-bold text-red-500">Delete</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     });
   };
@@ -170,7 +181,7 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
       </SidebarHeader>
 
       {/* ─── Content ─── */}
-      <SidebarContent className="bg-background overflow-hidden">
+      <SidebarContent className="bg-background">
         {isCollapsed ? (
           /* ── Collapsed: icon-only strip ── */
           <div className="flex flex-col items-center gap-1 pt-2">
@@ -233,48 +244,56 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
               </div>
             </div>
 
-            <ScrollArea className="flex-1 px-4 text-foreground font-base pb-4">
+            <div className="flex-1 px-4 text-foreground font-base pb-4 overflow-y-auto">
               {filteredChats.length === 0 ? (
                 <div className="text-center text-sm font-semibold opacity-70 mt-8">
                   {searchQuery ? "No Chats Found" : "No Chats Yet"}
                 </div>
               ) : (
-                <SidebarMenu className="gap-6 pt-2">
+                <div className="flex flex-col gap-6 pt-2">
                   {groupedChats.today.length > 0 && (
-                    <SidebarGroup className="p-0 border-none">
+                    <div>
                       <div className="mb-2 text-xs font-heading tracking-widest uppercase opacity-60">
                         Today
                       </div>
-                      {renderChatList(groupedChats.today)}
-                    </SidebarGroup>
+                      <div className="flex flex-col gap-1">
+                        {renderChatList(groupedChats.today)}
+                      </div>
+                    </div>
                   )}
                   {groupedChats.yesterday.length > 0 && (
-                    <SidebarGroup className="p-0 border-none">
+                    <div>
                       <div className="mb-2 text-xs font-heading tracking-widest uppercase opacity-60">
                         Yesterday
                       </div>
-                      {renderChatList(groupedChats.yesterday)}
-                    </SidebarGroup>
+                      <div className="flex flex-col gap-1">
+                        {renderChatList(groupedChats.yesterday)}
+                      </div>
+                    </div>
                   )}
                   {groupedChats.lastWeek.length > 0 && (
-                    <SidebarGroup className="p-0 border-none">
+                    <div>
                       <div className="mb-2 text-xs font-heading tracking-widest uppercase opacity-60">
                         Last 7 Days
                       </div>
-                      {renderChatList(groupedChats.lastWeek)}
-                    </SidebarGroup>
+                      <div className="flex flex-col gap-1">
+                        {renderChatList(groupedChats.lastWeek)}
+                      </div>
+                    </div>
                   )}
                   {groupedChats.older.length > 0 && (
-                    <SidebarGroup className="p-0 border-none">
+                    <div>
                       <div className="mb-2 text-xs font-heading tracking-widest uppercase opacity-60">
                         Older
                       </div>
-                      {renderChatList(groupedChats.older)}
-                    </SidebarGroup>
+                      <div className="flex flex-col gap-1">
+                        {renderChatList(groupedChats.older)}
+                      </div>
+                    </div>
                   )}
-                </SidebarMenu>
+                </div>
               )}
-            </ScrollArea>
+            </div>
           </>
         )}
       </SidebarContent>
@@ -312,6 +331,14 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
           </div>
         )}
       </SidebarFooter>
+
+      {selectedChatId && (
+        <DeleteChatModal
+          chatId={selectedChatId}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
     </Sidebar>
   );
 };
