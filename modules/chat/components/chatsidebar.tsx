@@ -244,7 +244,7 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
               </div>
             </div>
 
-            <div className="flex-1 px-4 text-foreground font-base pb-4 overflow-y-auto">
+            <div className="flex-1 px-4 text-foreground font-base pb-4 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-main [&::-webkit-scrollbar-thumb]:rounded-full">
               {filteredChats.length === 0 ? (
                 <div className="text-center text-sm font-semibold opacity-70 mt-8">
                   {searchQuery ? "No Chats Found" : "No Chats Yet"}
