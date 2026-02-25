@@ -124,6 +124,7 @@ export default function UserButton({
               src={user.image || ""}
               alt={user.name || "User avatar"}
               className="rounded-base object-cover"
+              referrerPolicy="no-referrer"
             />
             <AvatarFallback className="bg-main-accent text-foreground font-bold rounded-base">
               {getUserInitials(user.name, user.email)}
@@ -149,6 +150,7 @@ export default function UserButton({
                   src={user.image || ""}
                   alt={user.name || "User avatar"}
                   className="rounded-base object-cover"
+                  referrerPolicy="no-referrer"
                 />
                 <AvatarFallback className="bg-main-accent text-foreground font-medium text-lg rounded-base">
                   {getUserInitials(user.name, user.email)}
