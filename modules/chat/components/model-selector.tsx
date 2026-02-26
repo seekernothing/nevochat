@@ -45,7 +45,7 @@ interface AIModel {
 
 interface ModelSelectorProps {
   models: AIModel[];
-  selectedModelId: string | null;
+  selectedModelId: string | null | undefined;
   onModelSelect: (id: string) => void;
   className?: string;
 }

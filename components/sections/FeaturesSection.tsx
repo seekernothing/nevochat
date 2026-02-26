@@ -51,7 +51,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: "easeOut" as const,
     },
   },
 };
@@ -66,7 +66,7 @@ export function FeaturesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5 }}
-            className="text-3xl font-heading font-bold sm:text-4xl md:text-5xl"
+            className="text-3xl font-heading sm:text-4xl md:text-5xl"
           >
             Built for the <span className="text-main">Future</span>
           </motion.h2>
@@ -104,7 +104,7 @@ export function FeaturesSection() {
 
                   <CardHeader>
                     <div
-                      className={`w-12 h-12 rounded-[var(--radius-base)] border-2 border-border shadow-shadow flex items-center justify-center mb-4 ${feature.color}`}
+                      className={`w-12 h-12 rounded-base border-2 border-border shadow-shadow flex items-center justify-center mb-4 ${feature.color}`}
                     >
                       <feature.icon className="w-6 h-6 text-foreground" />
                     </div>
