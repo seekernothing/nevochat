@@ -187,12 +187,12 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
           <div className="flex flex-col items-center gap-1 pt-2">
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  onClick={toggleSidebar}
+                <Link
+                  href="/dashboard"
                   className="flex items-center justify-center w-10 h-10 rounded-base border-2 border-border bg-main text-main-foreground hover:shadow-shadow transition-all cursor-pointer"
                 >
                   <PlusIcon className="h-5 w-5" />
-                </button>
+                </Link>
               </TooltipTrigger>
               <TooltipContent
                 side="right"
@@ -227,7 +227,7 @@ const ChatSidebar = ({ user, chats }: { user: unknown; chats: unknown[] }) => {
                 asChild
                 className="w-full justify-start font-heading uppercase tracking-wider text-base h-12"
               >
-                <Link href="/">
+                <Link href="/dashboard">
                   <PlusIcon className="mr-2 h-5 w-5" />
                   New Chat
                 </Link>
