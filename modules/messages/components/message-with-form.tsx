@@ -29,6 +29,8 @@ import {
 } from "@/components/ai-elements/prompt-input";
 
 import { Spinner } from "@/components/ui/spinner";
+import { GeneratingLoader } from "@/components/ai-elements/generating-loader";
+import { ThinkingLoader } from "@/components/ai-elements/thinking-loader";
 import { ModelSelector } from "@/modules/chat/components/model-selector";
 import { useAIModels } from "@/modules/ai-agent/hook/ai-agent";
 import { useChatStore } from "@/modules/chat/store/chat-store";
@@ -232,13 +234,11 @@ export const MessageWithForm = ({ chatId }: { chatId: string }) => {
                 );
               })
             )}
+            {status === "submitted" && (
+              <GeneratingLoader />
+            )}
             {status === "streaming" && (
-              <div className="flex items-center gap-2 px-4 py-2 rounded-base border-2 border-border bg-main/10 w-fit">
-                <Spinner />
-                <span className="text-sm font-base text-foreground">
-                  AI is thinking...
-                </span>
-              </div>
+              <ThinkingLoader />
             )}
             {error && (
               <div className="p-4 mt-2 bg-secondary-background text-foreground border-2 border-border rounded-base shadow-shadow flex flex-col gap-2">
