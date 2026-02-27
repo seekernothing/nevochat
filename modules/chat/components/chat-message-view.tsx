@@ -34,11 +34,6 @@ const ChatMessageView = ({ user }: ChatMessageViewProps) => {
         <ChatMessageForm
           initialMessage={selectedMessage}
           onMessageChange={handleMessageChange}
-          models={models}
-          isLoading={isLoading}
-          isError={isError}
-          selectedModelId={selectedModelId}
-          onModelSelect={setSelectedModelId}
         />
       </div>
     </div>
