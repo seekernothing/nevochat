@@ -44,7 +44,7 @@ export function NeonChatMock() {
             className="self-end bg-main text-main-foreground rounded-base rounded-tr-sm px-4 py-2 border-2 border-border shadow-shadow max-w-[80%]"
           >
             <p className="text-sm font-medium">
-              Analyze the vast dataset and find the anomaly.
+              Explain quantum computing in simple terms.
             </p>
           </motion.div>
 
@@ -55,8 +55,9 @@ export function NeonChatMock() {
             className="self-start bg-background text-foreground rounded-base rounded-tl-sm px-4 py-2 border-2 border-border shadow-shadow max-w-[80%] relative"
           >
             <p className="text-sm font-medium">
-              Anomaly detected in sector 7G. Probability of critical error:
-              99.9%. Initiating failsafe protocols now.
+              Think of quantum bits like coins spinning in the air — they can
+              be heads, tails, or both at once. This lets quantum computers
+              solve certain problems exponentially faster.
             </p>
             {/* Typing Indicator dots mock */}
             <div className="absolute -bottom-6 left-2 flex gap-1 opacity-0 animate-pulse">

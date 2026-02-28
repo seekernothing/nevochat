@@ -22,16 +22,19 @@ export function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="sticky top-0 z-50 w-full border-b-2 border-border bg-background/90 backdrop-blur-md"
+      className="sticky top-0 z-50 w-full border-b-[3px] border-border bg-background/90 backdrop-blur-md shadow-[0_3px_0px_0px_var(--border)]"
     >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo — always visible on all devices */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0">
           <NevoChatLogo size={32} />
-          <span className="text-xl font-heading tracking-tight uppercase text-muted-foreground">
+          <span className="text-xl font-heading tracking-tight uppercase text-foreground" style={{ textShadow: "2px 2px 0px var(--main)" }}>
             NevoChat
           </span>
         </Link>
+
+        {/* Vertical Separator — Left */}
+        <div className="hidden md:block h-8 border-l-[3px] border-border ml-4" />
 
         {/* Navigation Menu — centered on desktop */}
         <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
@@ -126,6 +129,9 @@ export function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
+
+        {/* Vertical Separator — Right */}
+        <div className="hidden md:block h-8 border-l-[3px] border-border mr-4" />
 
         {/* Right side: Sign In + Mobile Menu */}
         <nav className="flex items-center gap-3">

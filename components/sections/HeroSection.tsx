@@ -34,17 +34,17 @@ export function HeroSection() {
               </motion.div>
 
               <h1 className="font-heading text-4xl sm:text-5xl xl:text-7xl font-bold tracking-tighter">
-                Forge Conversations Into{" "}
+                All Open-Source Models.{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-main to-main/50">
-                  Intelligence
+                  One Intelligent Chat
                 </span>
                 .
               </h1>
 
               <p className="max-w-[600px] text-muted-foreground md:text-xl lg:text-lg xl:text-xl mx-auto lg:mx-0 font-medium leading-relaxed">
-                The premium AI chat interface built for developers. Experience
-                persistent memory, lightning-fast responses, and an architecture
-                that puts you first.
+                Access top-tier open-source AI models in a single, beautifully
+                designed platform. Smart conversations, chain-of-thought
+                reasoning, and lightning-fast responses — all in one place.
               </p>
             </div>
 

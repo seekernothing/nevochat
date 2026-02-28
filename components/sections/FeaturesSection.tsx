@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { BrainCircuit, Code2, Shield } from "lucide-react";
+import { Layers, BrainCircuit, Shield, Zap, Monitor, History } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -12,25 +12,46 @@ import {
 
 const features = [
   {
-    title: "Persistent Memory",
+    title: "Open-Source Models",
     description:
-      "NevoChat remembers context across sessions. Never repeat yourself again and build on past conversations seamlessly.",
-    icon: BrainCircuit,
+      "Access and chat with a wide variety of top-tier open-source AI models, seamlessly integrated into a single platform for your convenience.",
+    icon: Layers,
     color: "bg-chart-1",
   },
   {
-    title: "Developer-First Architecture",
+    title: "Intelligent Conversations",
     description:
-      "Built with modern stack components. Clean APIs, extensible integrations, and robust documentation out of the box.",
-    icon: Code2,
+      "A smart, highly interactive chat interface designed for the most accurate, contextual, and high-quality responses.",
+    icon: BrainCircuit,
     color: "bg-chart-2",
   },
   {
-    title: "Secure & Fast",
+    title: "Secure & Private",
     description:
-      "Enterprise-grade security with lightning-fast streaming responses. Your data is encrypted and remains under your control.",
+      "Robust authentication ensuring your chat history and personal data remain completely safe and private.",
     icon: Shield,
     color: "bg-chart-3",
+  },
+  {
+    title: "Advanced AI Capabilities",
+    description:
+      "Powered by chain-of-thought reasoning, dynamic model selection, and lightning-fast response generation.",
+    icon: Zap,
+    color: "bg-chart-4",
+  },
+  {
+    title: "Beautiful & Responsive",
+    description:
+      "A clean, modern, and intuitive interface that works flawlessly across all devices, from mobile to desktop.",
+    icon: Monitor,
+    color: "bg-chart-5",
+  },
+  {
+    title: "Seamless History",
+    description:
+      "A well-organized chat history sidebar to easily access, manage, and revisit past conversations anytime.",
+    icon: History,
+    color: "bg-chart-1",
   },
 ];
 
@@ -39,7 +60,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.15,
     },
   },
 };
@@ -68,7 +89,7 @@ export function FeaturesSection() {
             transition={{ duration: 0.5 }}
             className="text-3xl font-heading sm:text-4xl md:text-5xl"
           >
-            Built for the <span className="text-main">Future</span>
+            Why <span className="text-main">NevoChat</span>?
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -77,8 +98,8 @@ export function FeaturesSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed font-medium"
           >
-            Powerful features wrapped in a minimalist, distraction-free
-            interface.
+            Everything you need for intelligent AI conversations, beautifully
+            wrapped.
           </motion.p>
         </div>
 
@@ -87,10 +108,10 @@ export function FeaturesSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] gap-8 max-w-6xl mx-auto"
         >
           {features.map((feature, index) => (
-            <motion.div key={index} variants={itemVariants}>
+            <motion.div key={index} variants={itemVariants} className="h-full">
               <motion.div
                 whileHover={{ scale: 1.03, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
