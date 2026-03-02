@@ -36,7 +36,36 @@ import { useAIModels } from "@/modules/ai-agent/hook/ai-agent";
 import { useChatStore } from "@/modules/chat/store/chat-store";
 import { useSearchParams, useRouter } from "next/navigation";
 
-import { RotateCcwIcon, StopCircleIcon } from "lucide-react";
+import { CheckIcon, ClipboardIcon, RotateCcwIcon, StopCircleIcon } from "lucide-react";
+
+const UserMessageWithCopy = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <div className="relative group/copy">
+      <MessageContent>{text}</MessageContent>
+      <button
+        onClick={handleCopy}
+        className="absolute -top-2 -right-2 opacity-0 group-hover/copy:opacity-100 transition-opacity duration-150 bg-background border-2 border-border rounded-full p-1 shadow-shadow hover:bg-main hover:text-main-foreground"
+        title="Copy prompt"
+        type="button"
+      >
+        {copied ? (
+          <CheckIcon size={12} />
+        ) : (
+          <ClipboardIcon size={12} />
+        )}
+      </button>
+    </div>
+  );
+};
 
 export const MessageWithForm = ({ chatId }: { chatId: string }) => {
   const { data: models, isPending: isModelLoading } = useAIModels();
@@ -210,9 +239,13 @@ export const MessageWithForm = ({ chatId }: { chatId: string }) => {
                               from={message.role}
                               key={`${message.id}-${i}`}
                             >
-                              <MessageContent>
-                                <MessageResponse>{part.text}</MessageResponse>
-                              </MessageContent>
+                              {message.role === "user" ? (
+                                <UserMessageWithCopy text={part.text} />
+                              ) : (
+                                <MessageContent>
+                                  <MessageResponse>{part.text}</MessageResponse>
+                                </MessageContent>
+                              )}
                             </Message>
                           );
 
